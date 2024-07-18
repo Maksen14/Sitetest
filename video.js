@@ -1,11 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
     let videoStarted = false;
+    const introVideo = document.getElementById('introVideo');
+
+    // Ensure the video loads and pauses at the first frame
+    introVideo.addEventListener('loadeddata', function () {
+        introVideo.pause();
+    }, false);
 
     document.getElementById('enterText').addEventListener('click', function () {
         if (videoStarted) return;
 
         const videoContainer = document.getElementById('videoContainer');
-        const introVideo = document.getElementById('introVideo');
         const mainContent = document.getElementById('mainContent');
         const enterText = document.getElementById('enterText');
 
