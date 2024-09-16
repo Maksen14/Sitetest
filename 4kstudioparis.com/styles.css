@@ -1,0 +1,309 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%; /* Ensure the body stretches to fit content */
+    overflow-y: auto;
+    overflow-x: hidden; /* Always allow vertical scrolling */
+}
+
+
+.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    z-index: 9999;
+}
+
+#videoContainer video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This makes sure the video covers the entire container */
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    background-size: cover;
+}
+
+#enterText {
+    position: absolute;
+    color: white;
+    font-size: 5em;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10000;
+    font-weight: bolder;
+    font-weight: 900;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+
+
+.intro {
+    position: absolute; 
+    background: url(0240.webp); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-attachment: fixed;
+    object-fit: cover;
+    overflow-y: auto; 
+    top: 0%;
+    left: 0%;
+}
+
+.intro::before {
+    content: "";
+    position: fixed; /* Keep the gradient overlay fixed on scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Only cover the visible viewport height */
+    background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.6));
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+}
+.intro.fade-in-gradient::before {
+    opacity: 1; /* Fully visible when the class is added */
+}
+
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    animation-name: focus-in-contract;
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards; /* Maintain final state of animation */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Stack elements vertically */
+    margin: 0 auto; /* Center the container itself */
+}
+
+.logo,
+.image-grid {
+    opacity: 0; /* Hide the elements initially */
+}
+
+/* Default logo size */
+
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.logo img {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    transition: max-width 0.3s ease; /* Smooth transition when resizing */
+}
+
+@media (min-height: 600px) {
+    .logo img {
+        max-width: 350px; /* Increase size for taller screens */
+    }
+}
+@media (min-height: 700px) {
+    .logo img {
+        max-width: 400px; /* Increase size for taller screens */
+    }
+}
+/* Adjust logo size for longer screens (taller than 800px) */
+@media (min-height: 800px) {
+    .logo img {
+        max-width: 450px; /* Increase size for taller screens */
+    }
+}
+
+/* Further increase size for very long screens (taller than 1000px) */
+@media (min-height: 1000px) {
+    .logo img {
+        max-width: 500px; /* Even bigger logo for very tall screens */
+    }
+}
+
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    padding: 10px;
+    justify-items: center; /* Center items within the grid cells */
+    justify-content: center; /* Center the entire grid within its container */
+}
+
+/* Image container for each image and overlay */
+.image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    
+}
+
+.image-container img {
+     /* Ensures no extra space around the image */
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 8 / 5;
+    border-radius: 15px; /* Apply rounded corners to images as well */
+}
+
+.image-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0); /* Initially invisible */
+    transition: background-color 0.3s ease;
+    border-radius: 0px; /* Inherit border-radius from container */
+    box-sizing: inherit; /* Ensure it follows the box-sizing of the container */
+}
+
+.image-container:hover::before {
+    background-color: rgba(0, 0, 0, 0.5); /* Add black overlay on hover */
+}
+
+/* Overlay text styling */
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-family: Roboto;
+    text-transform: uppercase;
+}
+
+.image-container:hover .overlay {
+    opacity: 1; /* Show text on hover */
+}
+
+
+
+/* Animation for logo */
+.animate-logo {
+    opacity: 0;
+    animation: focus-in-contract 2s ease-in-out forwards; /* Increase duration and use ease-in-out for smoother transition */
+}
+
+/* Animation for image grid */
+.animate-grid {
+    opacity: 0;
+    animation: focus-in-contract 2s ease-in-out forwards; /* Increase duration and use ease-in-out */
+}
+
+/* Keyframes for animation */
+@keyframes focus-in-contract {
+    0% {
+        transform: scale(1.1); /* Scale up slightly for smoother effect */
+        filter: blur(6px); /* Reduced blur for performance */
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1); /* Reset to normal size */
+        filter: blur(0);
+        opacity: 1;
+    }
+}
+
+
+
+
+.contact-info {
+    font-family: 'Montserrat', sans-serif; /* Use Montserrat font */
+    font-weight: 700; /* Make it bold */
+    text-align: center; /* Center the text */
+    margin-top: 20px; /* Add some space above the text */
+    opacity: 0; /* Keep it hidden initially */
+}
+
+/* Define the fade-in animation */
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* When the class 'fade-in-contact' is added, the fade-in animation is triggered */
+.fade-in-contact {
+    animation: fade-in 3s ease-in-out forwards;
+}
+
+/* Default font size for large screens */
+@media (min-width: 1024px) {
+    .contact-info {
+        font-size: 36px; /* Big font for larger screens */
+    }
+}
+
+/* Adjust font size for tablets (screens between 768px and 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .contact-info {
+        font-size: 30px; /* Medium font size for tablets */
+    }
+}
+
+/* Adjust font size for small screens (phones, screens below 768px) */
+@media (max-width: 767px) {
+    .contact-info {
+        font-size: 24px; /* Smaller font for mobile screens */
+    }
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .image-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .image-grid {
+        grid-template-columns: 1fr;
+    }
+}
